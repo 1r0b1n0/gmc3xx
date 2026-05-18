@@ -1,5 +1,4 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM ghcr.io/home-assistant/base:latest
 COPY rootfs/gmc320.c /usr/src/.
 WORKDIR /usr/src
 RUN apk update --no-cache \
