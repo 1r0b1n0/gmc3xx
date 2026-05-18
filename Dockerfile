@@ -15,3 +15,8 @@ WORKDIR /
 
 COPY rootfs /
 #CMD [ "run" ]
+
+RUN for file in /etc/services.d/*/*; do \
+dos2unix $file; \
+chmod a+xwr $file; \
+done
