@@ -14,9 +14,6 @@
 
 int serial_port;
 
-static  int true = 1;
-static  int false = 0;
-
 struct gyro_sensor {
 	 	uint16_t x;
 		uint16_t y;
@@ -40,9 +37,9 @@ int gmc_flush(int device) {
 	// flush input stream (max 100 bytes)
 	for (int i = 0; i < 100; i++) {
 		if (read(device, &ch, 1) == 0)
-			return true;
+			return 1;
 	}
-	return false;
+	return 0;
 }
 
 
@@ -52,7 +49,7 @@ int gmc_set_heartbeat_off(int device) {
 
 	if (gmc_write(device, cmd) == (ssize_t) strlen(cmd))
 		return gmc_flush(device);
-	return false;
+	return 0;
 }
 
 
@@ -153,9 +150,9 @@ int gmc_get_gyro(int device, Gyro_Sensor *gyro) {
 		gmc_read(device, (char *) &gyro->x, 7);
 //		gyro->x = 23;
 //		gyro->y = 45;
-		return true;
+		return 1;
 	}
-	return false;
+	return 0;
 }
 
 
@@ -167,9 +164,9 @@ float gmc_get_serial(int device, char *serialNum) {
 	if (gmc_write(device, cmd) == (ssize_t) strlen(cmd)) {
 		gmc_read(device, buf, 7);
 		sprintf(serialNum,"%0x%0x%0x%0x%0x%0x%0x", (unsigned char)buf[0], (unsigned char)buf[1],(unsigned char)buf[2],(unsigned char)buf[3],(unsigned char)buf[4],(unsigned char)buf[5],(unsigned char)buf[6]);
-		return true;
+		return 1;
 	}
-	return false;
+	return 0;
 }
 
 //Return:   total 14 bytes ASCII chars from GQ GMC unit. It includes 7 bytes hardware model and 7 bytes firmware version
@@ -182,9 +179,9 @@ int gmc_get_version(int device, char *version) {
 		buf[15] = 0;
 		strncpy(version, buf, 15);
 //		printf("test:%s", version);
-		return true;
+		return 1;
 	}
-	return false;
+	return 0;
 }
 
 
